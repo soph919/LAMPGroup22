@@ -1,4 +1,4 @@
-const urlBase = 'http://COP4331-5.com/LAMPAPI';
+const urlBase = 'http://104.236.230.31/LAMPAPI';
 const extension = 'php';
 
 let userId = 0;
@@ -183,3 +183,4 @@ function searchColor()
 	}
 	
 }
+
