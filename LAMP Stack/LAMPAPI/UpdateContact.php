@@ -1,4 +1,5 @@
 <?php
+	$inData = getRequestInfo();
     #fields
     $FirstName = $inData["firstName"];
     $LastName = $inData["lastName"];
