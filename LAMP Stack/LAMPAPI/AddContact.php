@@ -14,8 +14,8 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("INSERT into Contacts (UserId,FirstName,LastName,Phone,Email) VALUES(?,?,?,?,?)");
-		$stmt->bind_param("issss", $UserID, $FirstName, $LastName, $Phone, $Email);
+		$stmt = $conn->prepare("INSERT into Contacts (FirstName,LastName,Phone,Email,UserId) VALUES(?,?,?,?,?)");
+		$stmt->bind_param("ssssi", $FirstName, $LastName, $Phone, $Email, $UserID);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
