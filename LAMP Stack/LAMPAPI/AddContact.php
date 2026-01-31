@@ -4,7 +4,7 @@
     $LastName = $inData["lastName"];
     $Phone = $inData["phone"];
     $Email = $inData["email"];
-    $UserID = $inData["id"];
+    $UserID = $inData["userId"];
 
     $conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($conn->connect_error) 
@@ -13,8 +13,8 @@
 	} 
 	else
 	{
-		$stmt = $conn->prepare("INSERT into Colors (UserId,Name) VALUES(?,?)");
-		$stmt->bind_param("ss", $userId, $color);
+		$stmt = $conn->prepare("INSERT into Contacts (UserId,FirstName,LastName,Phone,Email) VALUES(?,?,?,?,?)");
+		$stmt->bind_param("ssssss", $UserID, $FirstName, $LastName, $Phone, $Email);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
