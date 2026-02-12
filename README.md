@@ -72,5 +72,17 @@ Full API documentation is available via SwaggerHub (see the link in the LAMPAPI 
 | API               | Aliza, Arav      |
 
 ## AI Disclosure
+## AI Assistance Disclosure
 
-[Claude](https://claude.ai) (by Anthropic) was used to assist with the frontend UI aesthetics, including styling and visual design of the application.
+This project was developed with assistance from generative AI tools:
+
+- **Tool**: Claude Code (Anthropic, claude.ai)
+- **Dates**: February 3-5, 2026
+- **Scope**: 
+Algorithm design for 
+  - showRegister() -- hides loginDiv, shows registerDiv
+  - showLogin() -- hides registerDiv, shows loginDiv
+  - doRegister() -- sends the registration data to Register.php
+General UX Aesethics and theme
+
+- **Use**:  css file for Website UX theme and designs
