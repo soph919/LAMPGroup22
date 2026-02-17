@@ -5,20 +5,28 @@ let userId = 0;
 let firstName = "";
 let lastName = "";
 
+//new
+//hides login form and shows registration form
 function showRegister()
 {
 	document.getElementById("loginDiv").style.display = "none";
 	document.getElementById("registerDiv").style.display = "block";
 }
 
+//new
+//hides register and shows login form
 function showLogin()
 {
 	document.getElementById("registerDiv").style.display = "none";
 	document.getElementById("loginDiv").style.display = "block";
 }
 
+
+//new
+//user creation
 function doRegister()
 {
+	//grabs fn,ln,user, and password and sends post to register.php as json
 	let first = document.getElementById("regFirstName").value;
 	let last = document.getElementById("regLastName").value;
 	let login = document.getElementById("regUsername").value;
@@ -29,8 +37,10 @@ function doRegister()
 	let tmp = {firstName:first,lastName:last,login:login,password:password};
 	let jsonPayload = JSON.stringify(tmp);
 
+	//sends to php
 	let url = urlBase + '/Register.' + extension;
 
+	//same xhr pattern as do login
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -60,6 +70,7 @@ function doRegister()
 	}
 }
 
+//same- 1 alteration
 function doLogin()
 {
 	userId = 0;
@@ -100,7 +111,7 @@ function doLogin()
 				lastName = jsonObject.lastName;
 
 				saveCookie();
-
+				//changes to contact.html
 				window.location.href = "contact.html";
 			}
 		};
@@ -113,6 +124,7 @@ function doLogin()
 
 }
 
+//same
 function saveCookie()
 {
 	let minutes = 20;
@@ -121,6 +133,7 @@ function saveCookie()
 	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
+//same
 function readCookie()
 {
 	userId = -1;
@@ -154,6 +167,7 @@ function readCookie()
 	}
 }
 
+//same
 function doLogout()
 {
 	userId = 0;
@@ -163,8 +177,11 @@ function doLogout()
 	window.location.href = "index.html";
 }
 
+
+//nows addContact instead of addColor
 function addContact()
 {
+	//4 fields now
 	let fn = document.getElementById("contactFirstName").value;
 	let ln = document.getElementById("contactLastName").value;
 	let ph = document.getElementById("contactPhone").value;
@@ -190,6 +207,7 @@ function addContact()
 				document.getElementById("contactLastName").value = "";
 				document.getElementById("contactPhone").value = "";
 				document.getElementById("contactEmail").value = "";
+				//call search contact so refreshes
 				searchContact();
 			}
 		};
@@ -202,16 +220,20 @@ function addContact()
 
 }
 
+//searchColor replaced with searchContact
 function searchContact()
 {
+	//grab input and clear other
 	let srch = document.getElementById("searchText").value;
 	document.getElementById("contactSearchResult").innerHTML = "";
 
 	let tmp = {search:srch,userId:userId};
 	let jsonPayload = JSON.stringify( tmp );
 
+	//send to searchcontact.php
 	let url = urlBase + '/SearchContact.' + extension;
 
+	//send post
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -229,12 +251,14 @@ function searchContact()
 					return;
 				}
 
+				//build contact list
 				let contactListHtml = "";
 
 				if (jsonObject.results && jsonObject.results.length > 0)
 				{
 					for (let i = 0; i < jsonObject.results.length; i++)
 					{
+						//display contacts with edit and delete buttons instead of plain text
 						let c = jsonObject.results[i];
 						contactListHtml += c.FirstName + " " + c.LastName;
 						if (c.Phone) contactListHtml += " | " + c.Phone;
@@ -244,6 +268,7 @@ function searchContact()
 						contactListHtml += "<br />";
 					}
 				}
+				//no results
 				else
 				{
 					contactListHtml = "No contacts found";
@@ -256,17 +281,22 @@ function searchContact()
 	}
 	catch(err)
 	{
+		//display it 
 		document.getElementById("contactSearchResult").innerHTML = err.message;
 	}
 }
 
+//new
+//function to delete contact
 function deleteContact(id)
 {
 	let tmp = {id:id};
 	let jsonPayload = JSON.stringify(tmp);
 
+	//sends id to php
 	let url = urlBase + '/DeleteContact.' + extension;
 
+	//same xhr logic
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -276,6 +306,7 @@ function deleteContact(id)
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
+				//successs call search contcat to refresh
 				searchContact();
 			}
 		};
@@ -287,9 +318,12 @@ function deleteContact(id)
 	}
 }
 
+//function to edit a contact
 function openEdit(id, fn, ln, ph, em)
 {
+	//makes hidden edit div visible
 	document.getElementById("editDiv").style.display = "block";
+	//udates fields
 	document.getElementById("editId").value = id;
 	document.getElementById("editFirstName").value = fn;
 	document.getElementById("editLastName").value = ln;
@@ -297,8 +331,10 @@ function openEdit(id, fn, ln, ph, em)
 	document.getElementById("editEmail").value = em;
 }
 
+//func to update contact
 function updateContact()
 {
+	//grabs values from edit form
 	let id = document.getElementById("editId").value;
 	let fn = document.getElementById("editFirstName").value;
 	let ln = document.getElementById("editLastName").value;
@@ -308,8 +344,10 @@ function updateContact()
 	let tmp = {id:parseInt(id),firstName:fn,lastName:ln,phone:ph,email:em};
 	let jsonPayload = JSON.stringify(tmp);
 
+	//send to php
 	let url = urlBase + '/UpdateContact.' + extension;
 
+	//same kxr logic
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -319,6 +357,7 @@ function updateContact()
 		{
 			if (this.readyState == 4 && this.status == 200)
 			{
+				//success hide edit form and refresh with search
 				document.getElementById("editDiv").style.display = "none";
 				searchContact();
 			}
@@ -331,7 +370,10 @@ function updateContact()
 	}
 }
 
+//func to cancel editing contact
 function cancelEdit()
 {
+	//hides edit div
 	document.getElementById("editDiv").style.display = "none";
 }
+
